@@ -77,8 +77,41 @@ const login = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  console.log("adduser", req.body);
+  try {
+    let object = {};
+    if (req.body.name) object.name = req.body.name;
+    if (req.body.email) object.email = req.body.email;
+    if (req.body.password) object.password = req.body.password;
+    userModal.update(object, {
+      where: {
+        id: req.body.id,
+      },
+    });
+    res.status(200).send("User updated successfully");
+  } catch (error) {
+    res.status(400).json({ error: error.toString() });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    userModal.destroy({
+      where: {
+        id: req.body.user_id,
+      },
+    });
+    res.status(200).send("User deleted Successfully");
+  } catch (error) {
+    res.status(400).json({ error: error.toString() });
+  }
+};
+
 module.exports = {
   getUsers,
   addUser,
   login,
+  updateUser,
+  deleteUser,
 };
