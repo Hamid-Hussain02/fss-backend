@@ -11,7 +11,7 @@ const app = express();
 
 const multiParty = require("connect-multiparty");
 
-PORT = 8080;
+PORT = process.env.PORT || 8080;
 
 require("dotenv").config();
 
