@@ -41,6 +41,31 @@ const addInvoice = async (req, res) => {
   }
 };
 
+const updateInvoice = async (req, res) => {
+  console.log("reqbodyyyy", req.body);
+  // const { image } = req.body;
+  // console.log("paymentproof", image);
+  try {
+    let reqBody = req.body;
+    console.log("fileeee", req.file);
+    // reqBody.payment_proof = req.file.path;
+    console.log("afterrrr", reqBody);
+
+    let object = {};
+    object.payment_status = req.body.payment_status;
+    invoiceModal.update(object, {
+      where: {
+        id: req.body.invoice_id,
+      },
+    });
+    // await invoiceSave.save("updatedddd");
+    // emailJob.sendEmail(req.body)
+    res.status(201).send("updatedddd");
+  } catch (error) {
+    res.status(400).json({ error: error.toString() });
+  }
+};
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
@@ -71,4 +96,5 @@ module.exports = {
   getInvoices,
   addInvoice,
   upload,
+  updateInvoice,
 };

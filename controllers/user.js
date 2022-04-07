@@ -1,5 +1,6 @@
 const userModal = require("../models").User;
 const invoiceModal = require("../models").Invoice;
+const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
@@ -7,11 +8,9 @@ const getUsers = async (req, res) => {
   //   console.log("getusers")
   try {
     let users = await userModal.findAll({
-      include: [
-        {
-          model: invoiceModal,
-        },
-      ],
+      include: {
+        model: invoiceModal,
+      },
     });
     res.status(200).send(users);
   } catch (error) {

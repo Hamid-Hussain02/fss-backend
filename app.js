@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(multiParty());
+app.use(multiParty());
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));

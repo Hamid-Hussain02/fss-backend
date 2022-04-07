@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const bcrypt = require("bcrypt");
+("use strict");
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Admin extends Model {
     /**
@@ -13,42 +12,46 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Admin.init({
-    name: { 
-      type: DataTypes.STRING,
-      validate:{
-        is: ["^[a-zA-Z ]*$",'i'],
-        len:[2-40]
-      }
-    },
-    email:{ 
-      type:DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate:{
+  Admin.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          is: ["^[a-zA-Z ]*$", "i"],
+          len: [2 - 40],
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
           isEmail: true,
           notNull: true,
           notEmpty: true,
           min: 2,
-          max: 30
+          max: 30,
+        },
       },
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      validate: {
+      password: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
           notNull: true,
           notEmpty: true,
+        },
+        set(value) {
+          //setter
+          // Storing passwords in plaintext in the database is terrible.
+          // Hashing the value with an appropriate cryptographic hash function is better.
+          this.setDataValue("password", bcrypt.hashSync(value, 10));
+        },
       },
-      // set(value) {   //setter
-      //   // Storing passwords in plaintext in the database is terrible.
-      //   // Hashing the value with an appropriate cryptographic hash function is better.
-      //   this.setDataValue('password', bcrypt.hashSync(value, 10));
-      // }
     },
-  }, {
-    sequelize,
-    modelName: 'Admin',
-  });
+    {
+      sequelize,
+      modelName: "Admin",
+    }
+  );
   return Admin;
 };

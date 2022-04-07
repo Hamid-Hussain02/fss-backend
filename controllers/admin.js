@@ -1,5 +1,6 @@
 const adminModal = require("../models").Admin;
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const getAdmins = async (req, res) => {
   // console.log("getusers")
